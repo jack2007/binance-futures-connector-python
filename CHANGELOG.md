@@ -1,4 +1,14 @@
 # Changelog
+## 4.2.0 - 2025-12-25
+
+### Added
+- UM_Futures:
+  - `POST /fapi/v1/algoOrder`
+  - `DELETE /fapi/v1/algoOpenOrders`
+  - `DELETE /fapi/v1/algoOrder`
+  - `GET /fapi/v1/algoOrder`
+  - `GET /fapi/v1/openAlgoOrders`
+  - `GET /fapi/v1/allAlgoOrders`
 
 ## 4.1.0 - 2024-10-31
 
