@@ -1,8 +1,8 @@
-# Binance Futures Public API Connector Python - DEPRECATED
+# Binance Futures Public API Connector Python
 [![Python version](https://img.shields.io/pypi/pyversions/binance-futures-connector)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**This repository is deprecated. Please use the new modular connector repository: [binance-connector-python](https://github.com/binance/binance-connector-python)**
+**2025/12/25: algo order related api support.**
 
 This is a lightweight library that works as a connector to [Binance Futures public API](https://developers.binance.com/docs/derivatives/Introduction)
 
