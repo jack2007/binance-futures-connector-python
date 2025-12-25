@@ -78,6 +78,176 @@ def get_multi_asset_mode(self, **kwargs):
     return self.sign_request("GET", url_path, params)
 
 
+def new_algo_order(self, symbol: str, side: str, type: str, algoType: str="CONDITIONAL", **kwargs):
+    """
+    |
+    | **New Algo Order (TRADE)**
+    | *Send in a new Algo order*
+
+    :API endpoint: ``POST /fapi/v1/algoOrder``
+    :API doc: https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api/New-Algo-Order
+
+    :parameter algoType: string; "CONDITIONAL" for conditional orders
+    :parameter symbol: string
+    :parameter side: string
+    :parameter positionSide: optional string. Default BOTH for One-way Mode; LONG or SHORT for Hedge Mode. It must be passed in Hedge Mode.
+    :parameter type: string; "TAKE_PROFIT", "STOP", "STOP_MARKET", "TAKE_PROFIT_MARKET", "TRAILING_STOP_MARKET"        
+    :parameter timeInForce: optional string
+    :parameter quantity: string    
+    :parameter price: optional string
+    :parameter triggerPrice: optional string
+    :parameter workingType: optional string. "MARK_PRICE", "CONTRACT_PRICE", default "CONTRACT_PRICE"
+    :parameter priceMatch: optional string        
+    :parameter closePosition: optional bool
+    :parameter priceProtect: optional bool
+    :parameter reduceOnly: optional bool
+    :parameter activatePrice: optional string. Used for TRAILING_STOP_MARKET order
+    :parameter callbackRate: optional string. Used for TRAILING_STOP_MARKET order
+    :parameter clientAlgoId: optional string. A unique ID for the algo order.    
+    :parameter selfTradePreventionMode: optional string            
+    :parameter goodTillDate: optional int
+    :parameter recvWindow: optional int
+    |
+    """
+
+    check_required_parameters([[symbol, "symbol"], [side, "side"], [type, "type"]])
+    params = {"algoType": algoType, "symbol": symbol, "side": side, "type": type, **kwargs}
+    url_path = "/fapi/v1/algoOrder"
+    return self.sign_request("POST", url_path, params)
+
+
+def cancel_algo_order(self, algoid: int = None, clientalgoid: str = None, **kwargs):
+    """
+    |
+    | **Cancel Algo Order (TRADE)**
+    | *Cancel an active algo order*
+
+    :API endpoint: ``DELETE /fapi/v1/algoOrder``
+    :API doc: https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api/Cancel-Algo-Order
+
+    :parameter algoid: optional long; Algo order ID
+    :parameter clientalgoid: optional string; Client algo order ID
+    :parameter recvWindow: optional long
+    :parameter timestamp: required long
+    |
+    """
+    
+    # Either algoid or clientalgoid must be provided
+    if algoid is None and clientalgoid is None:
+        raise ValueError("Either algoid or clientalgoid must be provided")
+        
+    params = {}
+    if algoid is not None:
+        params["algoid"] = algoid
+    if clientalgoid is not None:
+        params["clientalgoid"] = clientalgoid
+    params.update(kwargs)
+    
+    url_path = "/fapi/v1/algoOrder"
+    return self.sign_request("DELETE", url_path, params)
+
+
+def cancel_all_algo_open_orders(self, symbol: str, **kwargs):
+    """
+    |
+    | **Cancel All Algo Open Orders (TRADE)**
+    | *Cancel All Algo Open Orders*
+
+    :API endpoint: ``DELETE /fapi/v1/algoOpenOrders``
+    :API doc: https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api/Cancel-All-Algo-Open-Orders
+
+    :parameter symbol: required string
+    :parameter recvWindow: optional long
+    :parameter timestamp: required long
+    |
+    """
+    
+    check_required_parameter(symbol, "symbol")
+    params = {"symbol": symbol, **kwargs}
+    url_path = "/fapi/v1/algoOpenOrders"
+    return self.sign_request("DELETE", url_path, params)
+
+
+def query_algo_order(self, algoid: int = None, clientAlgoId: str = None, **kwargs):
+    """
+    |
+    | **Query Algo Order (USER_DATA)**
+    | *Check an algo order's status*
+
+    :API endpoint: ``GET /fapi/v1/algoOrder``
+    :API doc: https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api/Query-Algo-Order
+
+    :parameter algoid: optional long; Algo order ID
+    :parameter clientAlgoId: optional string; Client algo order ID
+    :parameter recvWindow: optional long
+    :parameter timestamp: required long
+    |
+    """
+    
+    # Either algoid or clientAlgoId must be provided
+    if algoid is None and clientAlgoId is None:
+        raise ValueError("Either algoid or clientAlgoId must be provided")
+        
+    params = {}
+    if algoid is not None:
+        params["algoid"] = algoid
+    if clientAlgoId is not None:
+        params["clientAlgoId"] = clientAlgoId
+    params.update(kwargs)
+    
+    url_path = "/fapi/v1/algoOrder"
+    return self.sign_request("GET", url_path, params)
+
+
+def get_all_algo_open_orders(self, symbol: str = None, **kwargs):
+    """
+    |
+    | **Current All Algo Open Orders (USER_DATA)**
+    | *Get all algo open orders on a symbol. Careful when accessing this with no symbol.*
+
+    :API endpoint: ``GET /fapi/v1/openAlgoOrders``
+    :API doc: https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api/Current-All-Algo-Open-Orders
+
+    :parameter symbol: optional string
+    :parameter recvWindow: optional long
+    :parameter timestamp: required long
+    |
+    """
+    
+    params = {}
+    if symbol is not None:
+        params["symbol"] = symbol
+    params.update(kwargs)
+    
+    url_path = "/fapi/v1/openAlgoOrders"
+    return self.sign_request("GET", url_path, params)
+
+
+def query_all_algo_orders(self, **kwargs):
+    """
+    |
+    | **Query All Algo Orders (USER_DATA)**
+    | *Get all algo orders; active, CANCELED, TRIGGERED or FINISHED.*
+
+    :API endpoint: ``GET /fapi/v1/allAlgoOrders``
+    :API doc: https://developers.binance.com/docs/derivatives/usds-margined-futures/trade/rest-api/Query-All-Algo-Orders
+
+    :parameter symbol: optional string
+    :parameter recvWindow: optional long
+    :parameter timestamp: required long
+    |
+    """
+    
+    params = {}
+    if 'symbol' in kwargs and kwargs['symbol'] is not None:
+        params["symbol"] = kwargs['symbol']
+    params.update(kwargs)
+    
+    url_path = "/fapi/v1/allAlgoOrders"
+    return self.sign_request("GET", url_path, params)
+
+
+
 def new_order(self, symbol: str, side: str, type: str, **kwargs):
     """
     |

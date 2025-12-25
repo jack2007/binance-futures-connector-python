@@ -1,6 +1,5 @@
 from binance.api import API
 
-
 class UMFutures(API):
     def __init__(self, key=None, secret=None, **kwargs):
         if "base_url" not in kwargs:
@@ -42,6 +41,13 @@ class UMFutures(API):
     from binance.um_futures.account import get_position_mode
     from binance.um_futures.account import change_multi_asset_mode
     from binance.um_futures.account import get_multi_asset_mode
+    from binance.um_futures.account import new_algo_order
+    from binance.um_futures.account import cancel_algo_order
+    from binance.um_futures.account import cancel_all_algo_open_orders
+    from binance.um_futures.account import query_algo_order
+    from binance.um_futures.account import get_all_algo_open_orders
+    from binance.um_futures.account import query_all_algo_orders
+
     from binance.um_futures.account import new_order
     from binance.um_futures.account import new_order_test
     from binance.um_futures.account import modify_order
